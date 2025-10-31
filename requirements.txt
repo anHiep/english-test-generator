@@ -1,0 +1,4 @@
+termcolor
+crewai 
+crewai-tools 
+litserve
