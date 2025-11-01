@@ -2,3 +2,8 @@ termcolor
 crewai 
 crewai-tools 
 litserve
+pydub
+pyaudio
+audioop-lts
+torchaudio
+canvasapi
