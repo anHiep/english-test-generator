@@ -50,33 +50,35 @@ for topic in topics:
     print(colored("[RUNNING]", "blue"), "Processing topic:", colored(topic, "yellow"))
     module = ensure_module_exists(topic)
 
-    # print(colored("[RUNNING]", "blue"), "Generating ideas for English test.")
-    # raw_ideas = get_ideas(topic)
-    # ideas = raw_ideas.split(" | ")
-    # print(colored("[DONE]", "green"), "Complete generating ideas for English test.")
+    print(colored("[RUNNING]", "blue"), "Generating ideas for English test.")
+    raw_ideas = get_ideas(topic)
+    ideas = raw_ideas.split(" | ")
+    print(colored("[DONE]", "green"), "Complete generating ideas for English test.")
 
-    # file_path = os.path.join(dist_path, "ideas.txt")
-    # with open(file_path, "w", encoding="utf-8") as f:
-    #     if isinstance(ideas, dict):
-    #         for k, v in ideas.items():
-    #             f.write(f"{k}: {v}\n")
-    #     elif isinstance(ideas, (list, tuple, set)):
-    #         for item in ideas:
-    #             f.write(f"{item}\n")
-    #     else:
-    #         if isinstance(ideas, str):
-    #             for line in ideas.splitlines():
-    #                 f.write(line + "\n")
-    #         else:
-    #             f.write(str(ideas) + "\n")
-    # print(colored("[DONE]", "green"), "Complete writing ideas to file:", colored(dist_path, "yellow"))
-
-    ideas = [
-        "Debate the ethics of Mars colonization using terms like sustainability, resource allocation, and intergenerational equity",
-        "Explain cosmic radiation protection measures with vocabulary like shielding, radiation exposure, and health risks"
-    ]
+    file_path = os.path.join(dist_path, "ideas.txt")
+    with open(file_path, "w", encoding="utf-8") as f:
+        if isinstance(ideas, dict):
+            for k, v in ideas.items():
+                f.write(f"{k}: {v}\n")
+        elif isinstance(ideas, (list, tuple, set)):
+            for item in ideas:
+                f.write(f"{item}\n")
+        else:
+            if isinstance(ideas, str):
+                for line in ideas.splitlines():
+                    f.write(line + "\n")
+            else:
+                f.write(str(ideas) + "\n")
+    print(colored("[DONE]", "green"), "Complete writing ideas to file:", colored(dist_path, "yellow"))
 
     for idx, idea in enumerate(ideas):
-        from listening.listening import create_listening_quiz
-        create_listening_quiz(idea, idx + 1, dist_path, topic, module)
+        if idx < 10:
+            from listeningA1A2.listening import create_listening_quiz
+            create_listening_quiz(idea, idx + 1, dist_path, topic, module)
+        if 10 <= idx < 20:
+            from listeningB1B2.listening import create_listening_quiz
+            create_listening_quiz(idea, idx + 1, dist_path, topic, module)
+        if 20 <= idx < 30:
+            from listeningC1C2.listening import create_listening_quiz
+            create_listening_quiz(idea, idx + 1, dist_path, topic, module)
 
