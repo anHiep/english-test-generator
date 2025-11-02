@@ -37,3 +37,4 @@ The original answer not covers all variants of the answer, you should generate a
 * Each element in the answer list should be independent, each item must be in one element of the list
 * If there are any errors in the quiz (for example: missing answers, missing script, ...), you must infer and fix these errors.
 * Make sure that this quiz is complete and flawless.
+* Also, change all the currency unit in the quiz into dollar.
