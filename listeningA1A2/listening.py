@@ -13,9 +13,9 @@ def create_listening_quiz(content: str, quiz_idx: int, dist_path: str, topic: st
     raw_test_dir = os.path.join(dist_path, "listening", f"{quiz_idx}")
     os.makedirs(raw_test_dir, exist_ok=True)
 
-    print(colored("[RUNNING]", "blue"), f"Generating Listening Part 1 for idea {quiz_idx+1}: {content}")
+    print(colored("[RUNNING]", "blue"), f"Generating Listening Part 1 for idea {quiz_idx}: {content}")
     listening, prompt = generate_listening(content)
-    print(colored("[DONE]", "green"), f"Generated Listening Part 1 for idea {quiz_idx+1}")
+    print(colored("[DONE]", "green"), f"Generated Listening Part 1 for idea {quiz_idx}")
 
     # Write listening part
     raw_test_path = os.path.join(raw_test_dir, "raw_test.txt")

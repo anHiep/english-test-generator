@@ -110,6 +110,6 @@ Text: Campus map
 - Must generate the answers for all questions.
 - **Do not include any explanations, comments, or text outside the quiz content. No additional commentary or instructions. Only the formatted quiz content should appear.**
 - Make sure that this quiz is in the medium difficulties (level B1 to B2). This targeted test takers for this quiz are people with intermediate English proficiency.
-- Avoid very complex grammars or very hard vocabularies because this quiz is for the intermediate level.
+- Use some complex grammars and some hard vocabularies because this quiz is for the intermediate level.
 - The targeted test takers for this quiz are around 6.5 - 7.5 in IELTS Listening proficiency.
 """

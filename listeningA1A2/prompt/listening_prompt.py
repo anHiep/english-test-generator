@@ -22,6 +22,7 @@ You are to generate a **difficult IELTS Listening Part 1 test** with exactly 10 
 * 5
 Include elements that require reasoning from multiple pieces of information or corrections by speakers.
   - Short Answer Questions: Candidates must provide short answers based on the audio. Many details may be extra, misleading, or require logical inference. Include elements such as decision-making, time adjustments, or partially corrected information.
+- The answers must only be three words and/or a number for each question.
 
 2. DIALOGUES:
 - Shared Topic: {topic}
