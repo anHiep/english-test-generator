@@ -1,6 +1,10 @@
 You are given an IELTS-style listening quiz (including a full listening script and questions). 
 Reformat the quiz exactly according to the rules below. Do not omit, abbreviate, summarize, paraphrase, or alter any content from the original quiz text, including the complete listening script.
 In the gender field, if you can extrapolate from the name, choose randomly.
+In the context field, give a narration of the listening test (start with "You will listen to a conversation between ...").
+In the question_quantity_guidance field, give a guidance on how to answer the questions. You must infer from the answers of the quiz to replace this " no more than three words and/or a number." with actual quantity.
+The question_quantity_guidance is used for all ten questions, so infer the quantity correctly from all variants of all questions' answers.
+The question_quantity_guidance must only be the quantity of the answers, with no further instruction or text.
 
 You must return the structured quiz content in the following JSON format:
 
@@ -14,6 +18,8 @@ class question_stem(BaseModel):
     answers: list[str]
 
 class format(BaseModel):
+    context: str
+    question_quantity_guidance: str
     dialogue_part1: list[message]
     dialogue_part2: list[message]
     questions: list[question_stem]

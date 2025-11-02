@@ -8,12 +8,12 @@ SERVER_URL = 'http://0.0.0.0:3110'
 
 def get_ideas(topic):
     query = f"""
-        Give me 30 ideas for my English test base on the following topic: {topic}
+        Give me 10 ideas for my English test base on the following topic: {topic}
         The idea should be innovate, unusual, and interesting to help the test takers not only improve their English skills but also learn something new about the world.
         After doing an English test with this idea, the test takers should also learn a comprehensive range of vocabularies related to the topic.
         Just show the ideas without any explantation and generatation guidance.
         Return the ideas in sentences seperated by |, for example:
-        idea 1 | idea 2 | idea 3 | ... | idea 30
+        idea 1 | idea 2 | idea 3 | ... | idea 10
     """
 
     payload = {

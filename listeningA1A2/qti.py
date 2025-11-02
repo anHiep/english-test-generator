@@ -36,10 +36,11 @@ class question_stem(BaseModel):
     answers: list[str]
 
 class format(BaseModel):
+    context: str
+    question_quantity_guidance: str
     dialogue_part1: list[message]
     dialogue_part2: list[message]
     questions: list[question_stem]
-
 
 def generate_qti(content: str, quiz_idx: int, topic: str):
     for attempt in range(1, MAX_RETRIES + 1):
@@ -62,6 +63,11 @@ def generate_qti(content: str, quiz_idx: int, topic: str):
             print(colored("[DONE]", "green"), "Received structured response from LLM.")
 
             qtiCode = f"Quiz title: [{topic}] Listening Level A1-A2 Quiz {quiz_idx}\n"
+
+            qtiCode += f"\nText: {response.context}\n\n"
+
+            qtiCode += f"Text: Listen carefully and answer questions one to five. Write **{response.question_quantity_guidance}** for each answer.\n\n"
+
             for quiz_num, q in enumerate(response.questions, 1):
                 seen = set()
                 unique_answers = [a for a in q.answers if not (a in seen or seen.add(a))]
@@ -76,6 +82,9 @@ def generate_qti(content: str, quiz_idx: int, topic: str):
                 for ans in unique_answers:
                     qtiCode += f"*   {ans}\n"
                 qtiCode += "\n"
+
+                if quiz_num == 5:
+                    qtiCode += f"Text: Listen carefully and answer questions six to ten. Write **{response.question_quantity_guidance}** for each answer.\n\n"
 
             output_path = "qti.txt"
             with open(output_path, "w", encoding="utf-8") as f:
@@ -102,6 +111,7 @@ def generate_qti(content: str, quiz_idx: int, topic: str):
             final_audio = AudioSegment.silent(duration=0)
             female_voices = ["female_middle_age_1", "female_middle_age_2"]
             male_voices = ["male_middle_age_1", "male_young"]
+            narrator_voice = "narrator"
 
             first_gender = response.dialogue_part1[0].gender
             second_gender = response.dialogue_part1[1].gender
@@ -116,6 +126,13 @@ def generate_qti(content: str, quiz_idx: int, topic: str):
             print(colored("[INFO]", "cyan"), f"First voice:  {first_voice} ({first_gender})")
             print(colored("[INFO]", "cyan"), f"Second voice: {second_voice} ({second_gender})")
 
+            temp_audio_path = "temp.mp3"
+            tts_model(response.context, narrator_voice)
+            tts_audio = AudioSegment.from_file(temp_audio_path, format="mp3")
+            os.remove(temp_audio_path)
+            final_audio += tts_audio
+            final_audio += AudioSegment.silent(duration=3000)
+
             print(colored("[RUNNING]", "blue"), "Synthesizing dialogue Part 1...")
             for idx, line in enumerate(response.dialogue_part1, 1):
                 voice = first_voice if idx % 2 == 1 else second_voice
@@ -126,6 +143,20 @@ def generate_qti(content: str, quiz_idx: int, topic: str):
                 final_audio += AudioSegment.silent(duration=500)
                 final_audio += tts_audio
             print(colored("[DONE]", "green"), "Part 1 TTS complete.")
+
+            temp_audio_path = "temp.mp3"
+            tts_model("You will now have ten seconds to check your answers.", narrator_voice)
+            tts_audio = AudioSegment.from_file(temp_audio_path, format="mp3")
+            os.remove(temp_audio_path)
+            final_audio += tts_audio
+            final_audio += AudioSegment.silent(duration=10000)
+
+            temp_audio_path = "temp.mp3"
+            tts_model("Now listen carefully and answer questions six to ten.", narrator_voice)
+            tts_audio = AudioSegment.from_file(temp_audio_path, format="mp3")
+            os.remove(temp_audio_path)
+            final_audio += tts_audio
+            final_audio += AudioSegment.silent(duration=3000)
 
             print(colored("[RUNNING]", "blue"), "Synthesizing dialogue Part 2...")
             for idx, line in enumerate(response.dialogue_part2, 1):
