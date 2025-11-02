@@ -16,6 +16,11 @@ voices = {
     "male_old_1": "Giọng nam già 1",
 }
 
+def fix_time_expressions(text: str) -> str:
+    pattern = re.compile(r'\b(\d{1,2}):(\d{1,2})\b')
+    return pattern.sub(r'\1 \2', text)
+
+
 def split_into_sentences(text: str):
     sentence_endings = re.compile(r'(?<=[.!?])\s+')
     sentences = sentence_endings.split(text.strip())
@@ -46,6 +51,7 @@ def split_into_sentences(text: str):
     return chunks
 
 def generate_tts_chunks(text: str, voice: str):
+    text = fix_time_expressions(text)
     audio_prompt_path = f"listeningA1A2/voices/{voice}.wav"
     chunks = split_into_sentences(text)
 

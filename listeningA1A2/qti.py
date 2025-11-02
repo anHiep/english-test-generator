@@ -18,7 +18,7 @@ load_dotenv()
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 LLM_MODEL = os.getenv("LLM_MODEL")
 
-MAX_RETRIES = 5
+MAX_RETRIES = 10
 RETRY_DELAY = 3
 
 client = OpenAI(
@@ -131,6 +131,13 @@ def generate_qti(content: str, quiz_idx: int, topic: str):
             tts_audio = AudioSegment.from_file(temp_audio_path, format="mp3")
             os.remove(temp_audio_path)
             final_audio += tts_audio
+            final_audio += AudioSegment.silent(duration=1000)
+
+            temp_audio_path = "temp.mp3"
+            tts_model("Now listen carefully and answer questions one to five.", narrator_voice)
+            tts_audio = AudioSegment.from_file(temp_audio_path, format="mp3")
+            os.remove(temp_audio_path)
+            final_audio += tts_audio
             final_audio += AudioSegment.silent(duration=3000)
 
             print(colored("[RUNNING]", "blue"), "Synthesizing dialogue Part 1...")
@@ -148,6 +155,7 @@ def generate_qti(content: str, quiz_idx: int, topic: str):
             tts_model("You will now have ten seconds to check your answers.", narrator_voice)
             tts_audio = AudioSegment.from_file(temp_audio_path, format="mp3")
             os.remove(temp_audio_path)
+            final_audio += AudioSegment.silent(duration=2000)
             final_audio += tts_audio
             final_audio += AudioSegment.silent(duration=10000)
 

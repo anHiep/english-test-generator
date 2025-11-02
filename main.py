@@ -65,7 +65,7 @@ def ensure_module_exists(topic: str):
 
 def safe_quiz_creation(create_func, idea, idx, dist_path, topic, module):
     """Retry quiz creation until it succeeds."""
-    max_retries = 3
+    max_retries = 5
     for attempt in range(max_retries):
         try:
             create_func(idea, idx + 1, dist_path, topic, module)
